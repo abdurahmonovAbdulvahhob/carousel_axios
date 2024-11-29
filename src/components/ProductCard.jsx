@@ -1,6 +1,36 @@
 import React from "react";
 
 const ProductCard = ({ pro }) => {
+  // Ustoz o'rgatgan yulduzcha qo'yish funksiyalari
+  function calculateStar(n) {
+    if (n === 0 || n.toString().length === 1) return n;
+
+    let [whole, rest] = n.toString().split(".");
+
+    return rest[0] < 3 ? +whole : rest[0] < 8 ? +whole + 0.5 : +whole + 1;
+  }
+
+  const setStar = (rating) => {
+    let number = calcCulateStar(rating);
+    let fill = Math.floor(number);
+    let half = number - Math.floor(number) ? 1 : 0;
+    let outlines = 5 - Math.ceil(number);
+
+    return [
+      ...Array(fill)
+        .fill()
+        .map((_, i) => <FaStar key={`fill-${i}`} />),
+      ...Array(half)
+        .fill()
+        .map((_, i) => <FaStarHalfAlt key={`half-${i}`} />),
+      ...Array(outlines)
+        .fill()
+        .map((_, i) => <FaRegStar key={`outline-${i}`} />),
+    ];
+  };
+
+  // end
+
   const stars = Array.from({ length: 5 }, (_, index) => {
     return (
       <svg
